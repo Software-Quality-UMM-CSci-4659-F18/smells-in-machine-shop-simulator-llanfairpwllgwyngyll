@@ -50,12 +50,9 @@ class Job {
         return id;
     }
 
-    public Task getFirstTask(){
-        return (Task) taskQ.getFrontElement();
-    }
-
-    public int getTaskMachine(Task theTask){
-        return theTask.getMachine();
+    public int getFirstTaskMachine(){
+        Task t = (Task) taskQ.getFrontElement();
+        return t.getMachine();
     }
 
     // top-level nested classes
