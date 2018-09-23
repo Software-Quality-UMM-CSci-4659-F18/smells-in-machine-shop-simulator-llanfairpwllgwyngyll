@@ -14,6 +14,7 @@ public class SimulationSpecification {
 
     public void setNumJobs(int numJobs) {
         this.numJobs = numJobs;
+        setJobSpecificationLength(numJobs);
     }
 
     public int getNumMachines() {
@@ -40,8 +41,35 @@ public class SimulationSpecification {
         this.jobSpecifications = jobSpecifications;
     }
 
+    public void setJobSpecification(int tasksNumber, int[] tasks) {
+        this.jobSpecifications = jobSpecifications;
+    }
+
     public JobSpecification getJobSpecifications(int jobNumber) {
         return jobSpecifications[jobNumber];
+    }
+
+    public void setJobSpecificationLength(int length) {
+        JobSpecification[] jobSpecifications = new JobSpecification[length+1];
+        for (int i=1; i <= length; i++) {
+            jobSpecifications[i] = new JobSpecification();
+        }
+
+        this.jobSpecifications = jobSpecifications;
+    }
+
+
+    public void makeJobSpecNumtasks(int jobNumber, int numTasks){
+        this.jobSpecifications[jobNumber].setNumTasks(numTasks);
+    }
+    public void makeJobSpecTasks(int jobNumber, int[] tasks){
+        this.jobSpecifications[jobNumber].setSpecificationsForTasks(tasks);
+    }
+    public int getJobNumTask(int jobNumber){
+        return this.jobSpecifications[jobNumber].getNumTasks();
+    }
+    public int[] getJobSpecsForTasks(int jobNumber){
+        return this.jobSpecifications[jobNumber].getSpecificationsForTasks();
     }
 
     @Override
@@ -60,4 +88,24 @@ public class SimulationSpecification {
     }
 
 
+    private static class JobSpecification {
+        private int numTasks;
+        private int[] specificationsForTasks;
+
+        public void setNumTasks(int numTasks) {
+            this.numTasks = numTasks;
+        }
+
+        public int getNumTasks() {
+            return numTasks;
+        }
+
+        public void setSpecificationsForTasks(int[] specificationsForTasks) {
+            this.specificationsForTasks = specificationsForTasks;
+        }
+
+        public int[] getSpecificationsForTasks() {
+            return specificationsForTasks;
+        }
+    }
 }

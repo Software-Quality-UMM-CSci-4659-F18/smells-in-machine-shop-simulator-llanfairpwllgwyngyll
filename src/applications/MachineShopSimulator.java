@@ -88,14 +88,17 @@ public class MachineShopSimulator {
         // input the jobs
         Job theJob;
         for (int i = 1; i <= specification.getNumJobs(); i++) {
-            int tasks = specification.getJobSpecifications(i).getNumTasks();
+//            int tasks = specification.getJobSpecifications(i).getNumTasks();
+            int tasks = specification.getJobNumTask(i);
             int firstMachine = 0; // machineArray for first task
 
             // create the job
             theJob = new Job(i);
             for (int j = 1; j <= tasks; j++) {
-                int theMachine = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+1];
-                int theTaskTime = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+2];
+//                int theMachine = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+1];
+                int theMachine = specification.getJobSpecsForTasks(i)[2*(j-1)+1];
+//                int theTaskTime = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+2];
+                int theTaskTime = specification.getJobSpecsForTasks(i)[2*(j-1)+2];
                 if (j == 1)
                     firstMachine = theMachine; // job's first machineArray
                 theJob.addTask(theMachine, theTaskTime); // add to
@@ -194,7 +197,7 @@ public class MachineShopSimulator {
         simulationResults.print();
     }
 
-    static class Machine {
+    private static class Machine {
         // data members
         private LinkedQueue jobQ; // queue of waiting jobs for this machine
         private int changeTime; // machine change-over time
