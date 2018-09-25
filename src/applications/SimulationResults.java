@@ -68,4 +68,49 @@ public class SimulationResults {
         nextJob++;
     }
 
+    public int getLastMachineTime(){
+        return this.jobCompletions[jobCompletions.length-1].completionTime;
+    }
+
+    public int getJobCompletionTotalWaitTime(){
+        int totalJobWaitTime = 0;
+        for(JobCompletionData jobCompletionData : this.jobCompletions){
+            final int jobWaitTime = jobCompletionData.getTotalWaitTime();
+            totalJobWaitTime += jobWaitTime;
+        }
+        return totalJobWaitTime;
+    }
+
+    public int getCompTimeAtIndex(int index){
+        return this.jobCompletions[index].completionTime;
+    }
+
+    public int getJobCompsLength(){
+        return this.jobCompletions.length;
+    }
+
+
+    private static class JobCompletionData {
+        private final int completionTime;
+        private final int totalWaitTime;
+        private final int jobNumber;
+
+        public JobCompletionData(int jobNumber, int completionTime, int totalWaitTime) {
+            this.jobNumber = jobNumber;
+            this.completionTime = completionTime;
+            this.totalWaitTime = totalWaitTime;
+        }
+
+        public int getCompletionTime() {
+            return completionTime;
+        }
+
+        public int getTotalWaitTime() {
+            return totalWaitTime;
+        }
+
+        public int getJobNumber() {
+            return jobNumber;
+        }
+    }
 }

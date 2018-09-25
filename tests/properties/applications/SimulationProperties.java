@@ -19,8 +19,9 @@ public class SimulationProperties {
     {
         final SimulationResults results = MachineShopSimulator.runSimulation(specification);
         final int finishTime = results.getFinishTime();
-        final JobCompletionData[] jobCompletionData = results.getJobCompletionData();
-        final int lastJobCompletionTime = jobCompletionData[jobCompletionData.length-1].getCompletionTime();
+//        final SimulationResults.JobCompletionData[] jobCompletionData = results.getJobCompletionData();
+//        final int lastJobCompletionTime = jobCompletionData[jobCompletionData.length-1].getCompletionTime();
+        final int lastJobCompletionTime = results.getLastMachineTime();
         assertEquals(finishTime, lastJobCompletionTime);
     }
 
@@ -37,12 +38,12 @@ public class SimulationProperties {
             totalMachineWaitTime += waitTime;
         }
 
-        int totalJobWaitTime = 0;
-        for (JobCompletionData jobCompletionData : results.getJobCompletionData()) {
-            final int jobWaitTime = jobCompletionData.getTotalWaitTime();
-            assertThat(jobWaitTime, greaterThanOrEqualTo(0));
-            totalJobWaitTime += jobWaitTime;
-        }
+        int totalJobWaitTime = results.getJobCompletionTotalWaitTime();
+//        for (SimulationResults.JobCompletionData jobCompletionData : results.getJobCompletionData()) {
+//            final int jobWaitTime = jobCompletionData.getTotalWaitTime();
+//            assertThat(jobWaitTime, greaterThanOrEqualTo(0));
+//            totalJobWaitTime += jobWaitTime;
+//        }
 
         assertEquals(totalJobWaitTime, totalMachineWaitTime);
     }
@@ -54,11 +55,15 @@ public class SimulationProperties {
     {
         final SimulationResults results = MachineShopSimulator.runSimulation(specification);
 
-        JobCompletionData[] jobCompletionData = results.getJobCompletionData();
-        for (int i=1; i<jobCompletionData.length-1; ++i) {
-            assertThat(jobCompletionData[i].getCompletionTime(),
-                    lessThanOrEqualTo(jobCompletionData[i+1].getCompletionTime()));
-        }
+//        SimulationResults.JobCompletionData[] jobCompletionData = results.getJobCompletionData();
+//        for (int i=1; i<jobCompletionData.length-1; ++i) {
+//            assertThat(jobCompletionData[i].getCompletionTime(),
+//                    lessThanOrEqualTo(jobCompletionData[i+1].getCompletionTime()));
+//        }
+        int outputLength = results.getJobCompsLength();
+        for (int i=1; i<outputLength-1; i++){
+            assertThat(results.getCompTimeAtIndex(i), lessThanOrEqualTo(results.getCompTimeAtIndex(i+1)));
+    }
     }
 
     @Property
