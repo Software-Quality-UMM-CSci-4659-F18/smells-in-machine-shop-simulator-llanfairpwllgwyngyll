@@ -50,4 +50,24 @@ class Machine {
     public void setActiveJob(Job activeJob) {
         this.activeJob = activeJob;
     }
+
+    public void putJobOnQ(Job theJob){
+        jobQ.put(theJob);
+    }
+
+    public boolean jobQIsEmpty(){
+        return jobQ.isEmpty();
+    }
+
+    public void beginNextJob(){
+        this.activeJob = (Job) jobQ.remove();
+    }
+
+    public void updateTotalWait(int timeNow){
+        this.totalWait = totalWait +timeNow - this.activeJob.getArrivalTime();
+    }
+
+    public void incrementNumTasks(){
+        this.numTasks = numTasks +1;
+    }
 }
