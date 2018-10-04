@@ -28,19 +28,16 @@ public class SpecificationReader {
         specification.setChangeOverTimes(changeOverTimes);
     }
 
+
     private void readJobSpecifications() {
         // input the jobs
-        JobSpecification[] jobSpecifications = new JobSpecification[specification.getNumJobs()+1];
-        for (int i=1; i <= specification.getNumJobs(); i++) {
-            jobSpecifications[i] = new JobSpecification();
-        }
-        specification.setJobSpecification(jobSpecifications);
+
         for (int i = 1; i <= specification.getNumJobs(); i++) {
             System.out.println("Enter number of tasks for job " + i);
             int tasks = keyboard.readInteger(); // number of tasks
             if (tasks < 1)
                 throw new MyInputException(MachineShopSimulator.EACH_JOB_MUST_HAVE_AT_LEAST_1_TASK);
-            jobSpecifications[i].setNumTasks(tasks);
+            specification.makeJobSpecNumtasks(i,tasks);
 
             int[] specificationsForTasks = new int[2 * tasks + 1];
 
