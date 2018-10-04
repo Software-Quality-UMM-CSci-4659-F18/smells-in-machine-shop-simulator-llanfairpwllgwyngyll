@@ -1,11 +1,6 @@
 package applications;
 
 public class MachineShop {
-    // data members of MachineShopSimulator
-    public static int timeNow; // current time
-    static int numMachines; // number of machines
-    static int numJobs; // number of jobs
-
     /** entry point for machine shop simulator */
     public static void main(String[] args) {
         /*
