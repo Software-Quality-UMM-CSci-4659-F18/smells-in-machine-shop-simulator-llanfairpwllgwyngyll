@@ -4,6 +4,7 @@ import dataStructures.LinkedQueue;
 
 class Machine {
     // data members
+    private int machineNumber;
     private LinkedQueue jobQ; // queue of waiting jobs for this machine
     private int changeTime; // machine change-over time
     private int totalWait; // total delay at this machine
@@ -11,8 +12,9 @@ class Machine {
     private Job activeJob; // job currently active on this machine
 
     // constructor
-    Machine() {
+    Machine(int machineNumber) {
         jobQ = new LinkedQueue();
+        this.machineNumber = machineNumber;
     }
 
     public LinkedQueue getJobQ() {
@@ -63,11 +65,43 @@ class Machine {
         this.activeJob = (Job) jobQ.remove();
     }
 
-    public void updateTotalWait(int timeNow){
-        this.totalWait = totalWait +timeNow - this.activeJob.getArrivalTime();
+    public void updateTotalWait(){
+        this.totalWait = totalWait + MachineShop.timeNow - this.activeJob.getArrivalTime();
     }
 
     public void incrementNumTasks(){
         this.numTasks = numTasks +1;
     }
+    /**
+     * change the state of theMachine
+     *
+     * @return last job run on this machine
+     */
+    public Job changeState() {// Task on theMachine has finished,
+        // schedule next one.
+        Job lastJob;
+        if (this.activeJob== null) {// in idle or change-over
+            // state
+            lastJob = null;
+            // wait over, ready for new job
+            if (this.jobQIsEmpty()) // no waiting job
+                MachineShop.eList.setFinishTime(this.machineNumber, MachineShop.largeTime);
+            else {// take job off the queue and work on it
+                this.beginNextJob();
+                this.updateTotalWait();
+                this.incrementNumTasks();
+                int t = this.getActiveJob().removeNextTask();
+                MachineShop.eList.setFinishTime(this.machineNumber, MachineShop.timeNow + t);
+            }
+        } else {// task has just finished on machineArray[theMachine]
+            // schedule change-over time
+            lastJob = this.getActiveJob();
+            this.setActiveJob(null);
+            MachineShop.eList.setFinishTime(this.machineNumber, MachineShop.timeNow
+                    + this.getChangeTime());
+        }
+
+        return lastJob;
+    }
+
 }
