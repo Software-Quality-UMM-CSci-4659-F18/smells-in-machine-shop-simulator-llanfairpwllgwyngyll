@@ -39,15 +39,15 @@ public class MachineShop {
         setUpJobs(specification);
 
         for (int p = 1; p <= numMachines; p++)
-            changeState(p);
+            machineArray[p].changeState();
     }
 
     private static void createEventAndMachineQueues(SimulationSpecification specification) {
         // create event and machine queues
-        eList = new EventList(specification.getNumMachines(), MachineShopSimulator.largeTime);
+        eList = new EventList(specification.getNumMachines(), largeTime);
         machineArray = new Machine[specification.getNumMachines() + 1];
         for (int i = 1; i <= specification.getNumMachines(); i++)
-            machineArray[i] = new Machine();
+            machineArray[i] = new Machine(i);
     }
 
     private static void setMachineChangeOverTimes(SimulationSpecification specification) {
@@ -74,5 +74,10 @@ public class MachineShop {
             } // task queue
             machineArray[firstMachine].putJobOnQ(theJob);
         }
+    }
+
+    //gets a machine using its machine number
+    public static Machine getMachine(int machineNum){
+        return machineArray[machineNum];
     }
 }
