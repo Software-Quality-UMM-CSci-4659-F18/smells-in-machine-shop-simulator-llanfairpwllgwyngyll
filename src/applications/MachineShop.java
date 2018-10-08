@@ -76,6 +76,7 @@ public class MachineShop {
         }
     }
 
+    //gets a machine using its machine number
     public static Machine getMachine(int machineNum){
         return machineArray[machineNum];
     }
